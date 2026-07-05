@@ -1,0 +1,45 @@
+===================================================================
+MBOM TARGET DEVICE WORKFLOW: GOOGLE PIXEL (FASTBOOT INTERFACE)
+===================================================================
+[Target Environment]: Android Open Source Project (AOSP) Fastboot
+[Interface Protocol]: USB Bootloader Control via Android Platform Tools
+
+-------------------------------------------------------------------
+PHASE 1: HOST-SIDE DEPENDENCIES
+-------------------------------------------------------------------
+1. Download the official Google ADB/Fastboot Platform Tools binary:
+   - Windows: https://dl.google.com/android/repository/platform-tools-latest-windows.zip
+   - Linux: https://dl.google.com/android/repository/platform-tools-latest-linux.zip
+2. Extract the zip archive directly to an accessible folder (e.g., C:\platform-tools\).
+3. Download the specific target 'boot.img' from this repository:
+   - Path: /tools/pixel/[DEVICE_CODE_NAME]/boot.img
+4. Move the 'boot.img' file directly inside your extracted platform-tools folder.
+
+-------------------------------------------------------------------
+PHASE 2: HARDWARE INTERFACE MANDATE
+-------------------------------------------------------------------
+1. Isolate the target Pixel device and power it down completely.
+2. Press and hold the Volume Down button, then press and hold the Power button.
+3. Maintain physical pressure until the red/inverted triangle and the Fastboot mode screen initializes.
+4. Establish a high-quality USB connection between the device and the PC terminal host.
+
+-------------------------------------------------------------------
+PHASE 3: TERMINAL SCRIPT EXECUTION
+-------------------------------------------------------------------
+Open a command prompt or terminal instance directly inside the platform-tools directory. Input and execute the following strings sequentially:
+
+Command 1: Enumerate connection string to verify PC detects the hardware
+fastboot devices
+
+Command 2: Unlock the bootloader structure (Wipes user data partition automatically)
+fastboot flashing unlock
+[Note: Interact with the phone's physical volume keys to select "Unlock the bootloader" and confirm with the Power button]
+
+Command 3: Purge leftover userdata caching profiles
+fastboot erase userdata
+
+Command 4: Flash the modified MBOM environment into the primary boot block
+fastboot flash boot boot.img
+
+Command 5: Execute final environment handoff
+fastboot reboot-recovery

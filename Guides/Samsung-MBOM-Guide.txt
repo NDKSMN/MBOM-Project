@@ -1,0 +1,49 @@
+===================================================================
+MBOM TARGET DEVICE WORKFLOW: SAMSUNG HARDWARE (DOWNLOAD MODE)
+===================================================================
+[Target Environment]: Samsung Loke Flashing Environment
+[Interface Protocol]: Proprietary Serial Protocol via Odin Executable
+
+-------------------------------------------------------------------
+PHASE 1: HOST-SIDE DEPENDENCIES
+-------------------------------------------------------------------
+1. Download the clean Odin Downloader desktop utility:
+   - Mirror Link: https://frieza.net/odin/
+2. Install the official Samsung USB Mobile Drivers onto the Windows host machine to establish COM port communication.
+3. Download the compressed environment target tarball from this repository:
+   - Path: /tools/samsung/[DEVICE_MODEL_NUMBER]/recovery.tar.md5
+
+-------------------------------------------------------------------
+PHASE 2: HARDWARE INTERFACE VARIATION MANDATE
+-------------------------------------------------------------------
+Execute the exact hardware button configuration matching the physical profile of your specific target device:
+
+Profile A: Devices WITH physical Home Button (Legacy)
+1. Power off device entirely.
+2. Simultaneously hold: Volume Down + Home Button + Power Button.
+3. Release only when the blue/green "Warning" screen initializes.
+
+Profile B: Devices WITHOUT Home Button but WITH physical Bixby Key
+1. Power off device entirely.
+2. Simultaneously hold: Volume Down + Bixby Key + Power Button.
+3. Release only when the blue/green "Warning" screen initializes.
+
+Profile C: Modern Legacy Layout (No Home or Bixby buttons)
+1. Power off device entirely. Do NOT plug in the cable yet.
+2. Simultaneously hold: Volume Up + Volume Down.
+3. While maintaining continuous pressure on both keys, insert the USB cable connected to the PC host.
+
+[FINAL CONFIRMATION FOR ALL PROFILES]:
+Once the blue/green "Warning" screen appears, press the physical Volume Up button once to enter full "Download Mode" (Odin Mode).
+
+-------------------------------------------------------------------
+PHASE 3: ODIN INTERFACE TOOL FLASHSHEET
+-------------------------------------------------------------------
+1. Open the Odin.exe executable on the Windows PC host.
+2. Observe the ID:COM connection terminal grid. Confirm that a block turns blue/yellow, indicating successful communication.
+3. Click the physical "AP" processing selector slot (Labeled "Resource/PDA" on legacy versions).
+4. Browse and upload the local 'recovery.tar.md5' file acquired in Phase 1.
+5. Select the "Options" structural configuration tab on the left.
+6. UNCHECK the "Auto Reboot" execution toggle. (Critical to prevent the stock OS from overwriting the flash on initial restart).
+7. Execute flashing routine by selecting the "Start" command.
+8. Wait for the primary status block to render a green "PASS!" box. Unplug the USB interface.
